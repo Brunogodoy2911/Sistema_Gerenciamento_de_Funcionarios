@@ -11,3 +11,16 @@ Command-line arguments:  -os linux -ws gtk -arch x86_64 -product org.eclipse.epp
 
 !ENTRY ch.qos.logback.classic 1 0 2025-04-26 17:18:01.498
 !MESSAGE Logback config file: /home/brunohenriquedegodoy/eclipse-workspace/Sistema_de_Gerenciamento_de_Funcionarios/.metadata/.plugins/org.eclipse.m2e.logback/logback.2.7.0.20241001-1350.xml
+!SESSION 2025-04-29 11:08:13.496 -----------------------------------------------
+eclipse.buildId=4.35.0.20250306-0811
+java.version=21.0.6
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=pt_BR
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -product org.eclipse.epp.package.java.product -data /home/brunohenriquedegodoy/eclipse-workspace/Sistema_de_Gerenciamento_de_Funcionarios
+
+!ENTRY ch.qos.logback.classic 1 0 2025-04-29 11:08:21.842
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2025-04-29 11:08:26.966
+!MESSAGE Logback config file: /home/brunohenriquedegodoy/eclipse-workspace/Sistema_de_Gerenciamento_de_Funcionarios/.metadata/.plugins/org.eclipse.m2e.logback/logback.2.7.0.20241001-1350.xml

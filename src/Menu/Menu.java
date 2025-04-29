@@ -34,7 +34,7 @@ public class Menu {
 				read.nextLine();
 
 				System.out.println("Digite o NOME do funcionário: ");
-				String name = read.nextLine().toUpperCase();
+				String name = read.nextLine().trim().toUpperCase();
 
 				System.out.println("Digite o CARGO do funcionário: ");
 				String position = read.nextLine().toUpperCase();
@@ -55,10 +55,46 @@ public class Menu {
 				if (employees.isEmpty()) {
 					System.out.println("\n❗ Nenhum funcionário cadastrado.");
 				} else {
-					System.out.println("\n📋 Lista de Funcionários:");
-					for (Employee employee : employees) {
-						employee.displayInformation();
+					read.nextLine();
+
+					System.out.println("\n====================================");
+					System.out.println("         Deseja Listar         ");
+					System.out.println("====================================");
+					System.out.println("1 - Todos");
+					System.out.println("2 - Por ID");
+					System.out.println("3 - Por Nome");
+					System.out.println("4 - Por Cargo");
+					System.out.println("5 - Por Salário");
+					System.out.println("6 - Por Departamento");
+					System.out.println("7 - Sair");
+					System.out.println("====================================");
+					System.out.print("Escolha uma opção: \n");
+					int filterOption = read.nextInt();
+					read.nextLine();
+
+					switch (filterOption) {
+					case 1:
+						Employee.listAllEmployees(employees);
+						break;
+					case 2:
+						Employee.filterById(employees, read);
+						break;
+					case 3:
+						Employee.filterByName(employees, read);
+						break;
+					case 4:
+						Employee.filterByPosition(employees, read);
+						break;
+					case 5:
+						Employee.filterBySalary(employees, read);
+						break;
+					case 6:
+						Employee.filterByDepartment(employees, read);
+						break;
+					default:
+						break;
 					}
+
 				}
 
 				break;
