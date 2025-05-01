@@ -109,7 +109,7 @@ public class Employee {
 			while (iterator.hasNext()) {
 				Employee employee = iterator.next();
 				if (employee.getId() == idRemove) {
-					if (confirmAction()) {
+					if (confirmAction(read)) {
 						iterator.remove();
 						System.out.println("\n✅ Funcionário com ID \"" + idRemove + "\" removido com sucesso.");
 						found = true;
@@ -126,7 +126,7 @@ public class Employee {
 			if (!found) {
 				System.out.println("\n❌ Funcionário com ID \"" + idRemove + "\" não encontrado.");
 			}
-		} catch (NumberFormatException e) {
+		} catch (InputMismatchException e) {
 			System.out.println("⚠️ ID inválido. Certifique-se de digitar um número inteiro.");
 			read.nextLine();
 		}
@@ -197,6 +197,7 @@ public class Employee {
 
 		try {
 			int idSearched = read.nextInt();
+			read.nextLine();
 
 			boolean found = false;
 			for (Employee employee : employees) {
@@ -210,54 +211,45 @@ public class Employee {
 			if (!found) {
 				System.out.println("\n❌ Funcionário com ID \"" + idSearched + "\" não encontrado.");
 			}
-		} catch (NumberFormatException e) {
+		} catch (InputMismatchException e) {
 			System.out.println("⚠️ ID inválido. Certifique-se de digitar um número inteiro.");
+			read.nextLine();
 		}
 
 	}
 
 	public static void filterByName(ArrayList<Employee> employees, Scanner read) {
 		System.out.println("Digite o nome do funcionário: ");
+		String nameSearched = read.nextLine().trim().toUpperCase();
 
-		try {
-			String nameSearched = read.nextLine().trim().toUpperCase();
-
-			boolean found = false;
-			for (Employee employee : employees) {
-				if (employee.getName().equals(nameSearched)) {
-					employee.displayInformation();
-					found = true;
-				}
+		boolean found = false;
+		for (Employee employee : employees) {
+			if (employee.getName().equals(nameSearched)) {
+				employee.displayInformation();
+				found = true;
 			}
+		}
 
-			if (!found) {
-				System.out.println("\n❌ Funcionário com NOME \"" + nameSearched + "\" não encontrado.");
-			}
-		} catch (NumberFormatException e) {
-			System.out.println("⚠️ NOME inválido. Certifique-se de digitar o nome corretamente.");
+		if (!found) {
+			System.out.println("\n❌ Funcionário com NOME \"" + nameSearched + "\" não encontrado.");
 		}
 
 	}
 
 	public static void filterByPosition(ArrayList<Employee> employees, Scanner read) {
 		System.out.println("Digite o cargo do funcionário: ");
+		String positionSearched = read.nextLine().trim().toUpperCase();
 
-		try {
-			String positionSearched = read.nextLine().trim().toUpperCase();
-
-			boolean found = false;
-			for (Employee employee : employees) {
-				if (employee.getPosition().equals(positionSearched)) {
-					employee.displayInformation();
-					found = true;
-				}
+		boolean found = false;
+		for (Employee employee : employees) {
+			if (employee.getPosition().equals(positionSearched)) {
+				employee.displayInformation();
+				found = true;
 			}
+		}
 
-			if (!found) {
-				System.out.println("\n❌ Funcionário com CARGO \"" + positionSearched + "\" não encontrado.");
-			}
-		} catch (NumberFormatException e) {
-			System.out.println("⚠️ CARGO inválido. Certifique-se de digitar o cargo corretamente.");
+		if (!found) {
+			System.out.println("\n❌ Funcionário com CARGO \"" + positionSearched + "\" não encontrado.");
 		}
 	}
 
@@ -266,10 +258,11 @@ public class Employee {
 
 		try {
 			double salarySearched = read.nextDouble();
+			read.nextLine();
 
 			boolean found = false;
 			for (Employee employee : employees) {
-				if (employee.getSalary() == salarySearched) {
+				if (Double.compare(employee.getSalary(), salarySearched) == 0) {
 					employee.displayInformation();
 					found = true;
 				}
@@ -280,8 +273,9 @@ public class Employee {
 				System.out.println(
 						"\n❌ Funcionário com SALÁRIO \"" + nfCoin.format(salarySearched) + "\" não encontrado.");
 			}
-		} catch (NumberFormatException e) {
+		} catch (InputMismatchException e) {
 			System.out.println("⚠️ SALÁRIO inválido. Certifique-se de digitar o salário corretamente.");
+			read.nextLine();
 		}
 
 	}
@@ -303,23 +297,18 @@ public class Employee {
 			if (!found) {
 				System.out.println("\n❌ Funcionário com DEPARTAMENTO \"" + departmentSearched + "\" não encontrado.");
 			}
-		} catch (NumberFormatException e) {
+		} catch (InputMismatchException e) {
 			System.out.println("⚠️ DEPARTAMENTO inválido. Certifique-se de digitar o departamento corretamente.");
 		}
 
 	}
 
-	public static boolean confirmAction() {
-		Scanner read = new Scanner(System.in);
+	public static boolean confirmAction(Scanner read) {
 
 		System.out.println("Deseja realmente proseguir com esta ação? (S - sim | N - não)");
-		String selectedChoice = read.nextLine();
+		String selectedChoice = read.nextLine().trim();
 
-		if (selectedChoice.equalsIgnoreCase("S")) {
-			return true;
-		}
-
-		return false;
+		return selectedChoice.equalsIgnoreCase("s");
 
 	}
 

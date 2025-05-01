@@ -1,6 +1,7 @@
 package Menu;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import Employee.Employee;
@@ -34,31 +35,37 @@ public class Menu {
 
 			switch (option) {
 			case 1:
-				System.out.println("Digite o ID do funcionário: ");
-				int id = read.nextInt();
+				try {
+					System.out.println("Digite o ID do funcionário: ");
+					int id = read.nextInt();
 
-				if (!Employee.checkId(id, employees)) {
-					break;
+					if (!Employee.checkId(id, employees)) {
+						break;
+					}
+
+					read.nextLine();
+
+					System.out.println("Digite o NOME do funcionário: ");
+					String name = read.nextLine().trim().toUpperCase();
+
+					System.out.println("Digite o CARGO do funcionário: ");
+					String position = read.nextLine().toUpperCase();
+
+					System.out.println("Digite o SALÁRIO do funcionário: ");
+					double salary = read.nextDouble();
+					read.nextLine();
+
+					System.out.println("Digite o DEPARTAMENTO do funcionário: ");
+					String department = read.nextLine().toUpperCase();
+
+					Employee newEmployee = new Employee(id, name, position, salary, department);
+					employees.add(newEmployee);
+					System.out.println("\n✅ Funcionário cadastrado com sucesso!");
+				} catch (InputMismatchException e) {
+					System.out.println("⚠️ Entrada inválida. Certifique-se de digitar os valores corretamente.");
+					read.nextLine();
 				}
 
-				read.nextLine();
-
-				System.out.println("Digite o NOME do funcionário: ");
-				String name = read.nextLine().trim().toUpperCase();
-
-				System.out.println("Digite o CARGO do funcionário: ");
-				String position = read.nextLine().toUpperCase();
-
-				System.out.println("Digite o SALÁRIO do funcionário: ");
-				double salary = read.nextDouble();
-				read.nextLine();
-
-				System.out.println("Digite o DEPARTAMENTO do funcionário: ");
-				String department = read.nextLine().toUpperCase();
-
-				Employee newEmployee = new Employee(id, name, position, salary, department);
-				employees.add(newEmployee);
-				System.out.println("\n✅ Funcionário cadastrado com sucesso!");
 				break;
 			case 2:
 				Employee.removeById(employees, read);
@@ -115,25 +122,32 @@ public class Menu {
 				break;
 			case 5:
 				System.out.println("Digite o ID do funcionário que quer aumentar o salário: ");
-				int idSearched = read.nextInt();
-				read.nextLine();
 
-				Employee found = null;
-				for (Employee f : employees) {
-					if (f.getId() == idSearched) {
-						found = f;
-						break;
+				try {
+					int idSearched = read.nextInt();
+					read.nextLine();
+
+					Employee found = null;
+					for (Employee f : employees) {
+						if (f.getId() == idSearched) {
+							found = f;
+							break;
+						}
 					}
+
+					if (found != null) {
+						System.out.println("Digite o percentual de aumento (%): ");
+						double percentage = read.nextDouble();
+						found.increaseSalary(percentage);
+						System.out.println("\n💸 Salário atualizado com sucesso!");
+					} else {
+						System.out.println("\n❌ Funcionário não encontrado!");
+					}
+				} catch (InputMismatchException e) {
+					System.out.println("⚠️ Entrada inválida. Certifique-se de digitar os valores corretamente.");
+					read.nextLine();
 				}
 
-				if (found != null) {
-					System.out.println("Digite o percentual de aumento (%): ");
-					double percentage = read.nextDouble();
-					found.increaseSalary(percentage);
-					System.out.println("\n💸 Salário atualizado com sucesso!");
-				} else {
-					System.out.println("\n❌ Funcionário não encontrado!");
-				}
 				break;
 			default:
 				about();
