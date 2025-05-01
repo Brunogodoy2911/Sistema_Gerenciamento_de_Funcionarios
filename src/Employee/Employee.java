@@ -2,6 +2,8 @@ package Employee;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Employee {
@@ -79,6 +81,108 @@ public class Employee {
 		System.out.printf("Salário: %s%n\n", nfCoin.format(getSalary()));
 		System.out.printf("Departamento: %s\n", getDepartment());
 		System.out.println("***************************************************");
+	}
+
+	public static boolean checkId(int id, ArrayList<Employee> employees) {
+
+		for (Employee employee : employees) {
+			if (employee.getId() == id) {
+				System.out.println("\n⚠️ Funcionário com ID \"" + id + "\" já existe.");
+				return false;
+			}
+		}
+
+		return true;
+
+	}
+
+	public static void removeById(ArrayList<Employee> employees, Scanner read) {
+		System.out.println("Digite o ID do funcionário que deseja remover: ");
+
+		try {
+			int idRemove = read.nextInt();
+			read.nextLine();
+
+			boolean found = false;
+			Iterator<Employee> iterator = employees.iterator();
+
+			while (iterator.hasNext()) {
+				Employee employee = iterator.next();
+				if (employee.getId() == idRemove) {
+					if (confirmAction()) {
+						iterator.remove();
+						System.out.println("\n✅ Funcionário com ID \"" + idRemove + "\" removido com sucesso.");
+						found = true;
+						break;
+					} else {
+						found = true;
+						System.out.println("\n❌ A exclusão não foi prosseguida!");
+						break;
+					}
+
+				}
+			}
+
+			if (!found) {
+				System.out.println("\n❌ Funcionário com ID \"" + idRemove + "\" não encontrado.");
+			}
+		} catch (NumberFormatException e) {
+			System.out.println("⚠️ ID inválido. Certifique-se de digitar um número inteiro.");
+			read.nextLine();
+		}
+
+	}
+
+	public static void updateEmployeeById(ArrayList<Employee> employees, Scanner read) {
+		System.out.println("Digite o ID do funcionário que deseja atualizar: ");
+
+		try {
+			int idToUpdate = read.nextInt();
+			read.nextLine();
+
+			boolean found = false;
+
+			for (Employee employee : employees) {
+				if (employee.getId() == idToUpdate) {
+					found = true;
+
+					System.out.println("\n👤 Funcionário encontrado:");
+					System.out.println("Nome atual: " + employee.getName());
+					System.out.println("\nDeseja alterar o nome? (S - sim | N - não): ");
+					if (read.nextLine().trim().equalsIgnoreCase("s")) {
+						System.out.println("Novo nome: ");
+						employee.setName(read.nextLine());
+					}
+
+					System.out.println("Cargo atual: " + employee.getPosition());
+					System.out.println("Deseja alterar o cargo? (S - sim | N - não): ");
+					if (read.nextLine().trim().equalsIgnoreCase("s")) {
+						System.out.print("Novo cargo: ");
+						employee.setPosition(read.nextLine());
+					}
+
+					System.out.println("Salário atual: R$" + employee.getSalary());
+					System.out.println("Deseja alterar o salário? (S - sim | N - não): ");
+					if (read.nextLine().trim().equalsIgnoreCase("s")) {
+						System.out.print("Novo salário: ");
+						double newSalary = read.nextDouble();
+						employee.setSalary(newSalary);
+						read.nextLine();
+					}
+
+					System.out.println("\n✅ Funcionário atualizado com sucesso!");
+					break;
+				}
+			}
+
+			if (!found) {
+				System.out.println("\n❌ Funcionário com ID \"" + idToUpdate + "\" não encontrado.");
+			}
+
+		} catch (InputMismatchException e) {
+			System.out.println("⚠️ Entrada inválida. Certifique-se de digitar os valores corretamente.");
+			read.nextLine();
+		}
 	}
 
 	public static void listAllEmployees(ArrayList<Employee> employees) {
@@ -204,4 +308,19 @@ public class Employee {
 		}
 
 	}
+
+	public static boolean confirmAction() {
+		Scanner read = new Scanner(System.in);
+
+		System.out.println("Deseja realmente proseguir com esta ação? (S - sim | N - não)");
+		String selectedChoice = read.nextLine();
+
+		if (selectedChoice.equalsIgnoreCase("S")) {
+			return true;
+		}
+
+		return false;
+
+	}
+
 }

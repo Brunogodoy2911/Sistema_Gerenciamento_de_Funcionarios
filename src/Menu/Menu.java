@@ -12,6 +12,10 @@ public class Menu {
 		Scanner read = new Scanner(System.in);
 
 		ArrayList<Employee> employees = new ArrayList<>();
+
+		Employee novoFuncionario = new Employee(2, "Bruno", "Desenvolvedor Júnior", 1200.90, "T.I");
+		employees.add(novoFuncionario);
+
 		int option;
 
 		while (true) {
@@ -19,9 +23,11 @@ public class Menu {
 			System.out.println("         MENU FUNCIONÁRIOS          ");
 			System.out.println("====================================");
 			System.out.println("1 - Cadastrar Funcionário");
-			System.out.println("2 - Listar Funcionários");
-			System.out.println("3 - Aumentar Salário");
-			System.out.println("4 - Sair");
+			System.out.println("2 - Remover Funcionário");
+			System.out.println("3 - Listar Funcionários");
+			System.out.println("4 - Atualizar Funcionário");
+			System.out.println("5 - Aumentar Salário");
+			System.out.println("6 - Sair");
 			System.out.println("====================================");
 			System.out.print("Escolha uma opção: \n");
 			option = read.nextInt();
@@ -30,6 +36,10 @@ public class Menu {
 			case 1:
 				System.out.println("Digite o ID do funcionário: ");
 				int id = read.nextInt();
+
+				if (!Employee.checkId(id, employees)) {
+					break;
+				}
 
 				read.nextLine();
 
@@ -51,7 +61,9 @@ public class Menu {
 				System.out.println("\n✅ Funcionário cadastrado com sucesso!");
 				break;
 			case 2:
-
+				Employee.removeById(employees, read);
+				break;
+			case 3:
 				if (employees.isEmpty()) {
 					System.out.println("\n❗ Nenhum funcionário cadastrado.");
 				} else {
@@ -98,7 +110,10 @@ public class Menu {
 				}
 
 				break;
-			case 3:
+			case 4:
+				Employee.updateEmployeeById(employees, read);
+				break;
+			case 5:
 				System.out.println("Digite o ID do funcionário que quer aumentar o salário: ");
 				int idSearched = read.nextInt();
 				read.nextLine();
